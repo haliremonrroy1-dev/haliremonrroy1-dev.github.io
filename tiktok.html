@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conectar TikTok</title>
+<style>
+  body{margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;background:#0d0d1a;color:#eee;line-height:1.6}
+  main{max-width:720px;margin:0 auto;padding:48px 20px;text-align:center}
+  h1{color:#7df9ff}
+  #codigo{word-break:break-all;background:#17172b;border-radius:12px;padding:16px;font-family:Consolas,monospace;font-size:1.1rem}
+  button{margin-top:16px;padding:12px 28px;border:0;border-radius:24px;background:#7df9ff;color:#0d0d1a;font-weight:bold;font-size:1rem;cursor:pointer}
+</style>
+</head>
+<body>
+<main>
+  <h1>Anime Key Publicador</h1>
+  <p id="msg">Leyendo la respuesta de TikTok...</p>
+  <div id="codigo"></div>
+  <button id="copiar" hidden>Copiar código</button>
+</main>
+<script>
+  const p = new URLSearchParams(location.search);
+  const msg = document.getElementById('msg'), caja = document.getElementById('codigo'), btn = document.getElementById('copiar');
+  if (p.get('code')) {
+    msg.textContent = 'Listo. Copia este código y pégalo en la ventana de PowerShell que lo está pidiendo (no en el chat):';
+    caja.textContent = p.get('code');
+    btn.hidden = false;
+    btn.onclick = () => navigator.clipboard.writeText(p.get('code')).then(() => btn.textContent = 'Copiado ✔');
+  } else if (p.get('error')) {
+    msg.textContent = 'TikTok devolvió un error: ' + p.get('error') + ' ' + (p.get('error_description') || '');
+  } else {
+    msg.textContent = 'Esta página solo se usa para conectar la cuenta de TikTok de Anime Key.';
+  }
+</script>
+</body>
+</html>
